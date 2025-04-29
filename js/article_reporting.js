@@ -1,8 +1,8 @@
-(function ($, Drupal){
+(function ($, Drupal, once, drupalSettings) {
   Drupal.behaviors.articleReportingChart = {
     attach: function (context, settings) {
-      if ($('#article-reporting-chart', context).once('article-reporting-chart').length) {
-        var ctx = document.getElementById('article-reporting-chart').getContext('2d');
+      once('article-reporting-chart', '#article-reporting-chart', context).forEach(function (element) {
+        var ctx = element.getContext('2d');
 
         var labels = drupalSettings.article_reporting.labels || [];
         var data = drupalSettings.article_reporting.data || [];
@@ -25,7 +25,7 @@
             }
           }
         });
-      }
+      });
     }
-  }
-})(jQuery, Drupal, drupalSettings);
+  };
+})(jQuery, Drupal, once, drupalSettings);

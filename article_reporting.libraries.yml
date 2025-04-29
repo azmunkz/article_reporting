@@ -6,3 +6,4 @@ chart:
   dependencies:
     - core/drupal
     - core/jquery
+    - core/drupal.once

@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Article Reporting module file.
+ */
+
+/**
+ * Implements hook_theme())
+ */
+/**
+ * Implements hook_theme().
+ */
+function article_reporting_theme($existing, $type, $theme, $path) {
+  return [
+    'article_reporting_dashboard' => [
+      'variables' => [],
+      'template' => 'dashboard',
+//      'path' => 'modules/custom/article_reporting/templates',
+    ],
+  ];
+}
