@@ -4,13 +4,16 @@
       if ($('#article-reporting-chart', context).once('article-reporting-chart').length) {
         var ctx = document.getElementById('article-reporting-chart').getContext('2d');
 
+        var labels = drupalSettings.article_reporting.labels || [];
+        var data = drupalSettings.article_reporting.data || [];
+
         new Chart(ctx, {
           type: 'bar',
           data: {
-            labels: ['Day 1', 'Day 2', 'Day 3'],
+            labels: labels,
             datasets: [{
               label: '# of Articles',
-              data: [5, 10, 8],
+              data: data,
               borderWidth: 1
             }]
           },
@@ -25,4 +28,4 @@
       }
     }
   }
-})(jQuery, Drupal);
+})(jQuery, Drupal, drupalSettings);
