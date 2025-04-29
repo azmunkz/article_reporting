@@ -1,0 +1,8 @@
+chart:
+  version: 1.x
+  js:
+    https://cdn.jsdelivr.net/npm/chart.js: { type: external }
+    js/article_reporting.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery

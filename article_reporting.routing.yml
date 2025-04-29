@@ -1,0 +1,7 @@
+article_reporting.dashboard:
+  path: '/admin/article-reporting'
+  defaults:
+    _controller: '\Drupal\article_reporting\Controller\ArticleReportingController::dashboard'
+    _title: 'Article Reporting Dashboard'
+  requirements:
+    _permission: 'access content'

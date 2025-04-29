@@ -1,0 +1,7 @@
+name: 'Article Reporting'
+type: module
+description: 'Provides article creating reporting and dashboard'
+core_version_requirement: ^10 || ^11
+package: 'Custom'
+dependencies:
+  - drupal:node

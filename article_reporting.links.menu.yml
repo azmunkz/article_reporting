@@ -1,0 +1,6 @@
+article_reporting.admin:
+  title: 'Article Reporting'
+  description: 'Dashboard for article reporting.'
+  parent: system.admin_content
+  route_name: article_reporting.dashboard
+  weight: 100
