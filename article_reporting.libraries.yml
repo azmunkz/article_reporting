@@ -1,5 +1,8 @@
 chart:
   version: 1.x
+  css:
+    theme:
+      css/article_reporting.css: {}
   js:
     https://cdn.jsdelivr.net/npm/chart.js: { type: external }
     js/article_reporting.js: {}

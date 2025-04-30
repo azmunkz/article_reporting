@@ -20,17 +20,23 @@ class ArticleReportingFilterForm extends FormBase{
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['range'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Filter by'),
-      '#options' => [
-        'day' => $this->t('Day'),
-        'week' => $this->t('Week'),
-        'month' => $this->t('Month'),
-        'year' => $this->t('Year'),
-      ],
-      '#default_value' => $form_state->getValue('range', 'month'),
+  public function buildForm(array $form, FormStateInterface $form_state, $start_date = NULL, $end_date = NULL) {
+
+    $start_date = $start_date ?: date('Y-m-01');
+    $end_date = $end_date ?: date('Y-m-d');
+
+    $form['start_date'] = [
+      '#type' => 'date',
+      '#title' => $this->t('Start Date'),
+      '#default_value' => $start_date,
+      '#required' => TRUE
+    ];
+
+    $form['end_date'] = [
+      '#type' => 'date',
+      '#title' => $this->t('End Date'),
+      '#default_value' => $end_date,
+      '#required' => TRUE
     ];
 
     $form['actions'] = [
@@ -52,7 +58,13 @@ class ArticleReportingFilterForm extends FormBase{
   public function submitForm ( array &$form, FormStateInterface $form_state) {
     // Redirect with query parameters.
     $range = $form_state->getValue('range');
-    $form_state->setRedirect('article_reporting.dashboard', ['range' => $range]);
+    //$form_state->setRedirect('article_reporting.dashboard', ['range' => $range]);
+    $form_state->setRedirect('article_reporting.dashboard', [], [
+      'query' => [
+        'start_date' => $form_state->getValue('start_date'),
+        'end_date' => $form_state->getValue('end_date')
+      ],
+    ]);
   }
 
 }
