@@ -71,12 +71,56 @@ class ArticleReportingController extends ControllerBase {
    * Fetch article counts between two dates.
    */
 
+//  private function fetchArticleCountsByRange($start_date, $end_date) {
+//    $start_ts = strtotime($start_date . ' 00:00:00');
+//    $end_ts = strtotime($end_date . ' 23:59:59');
+//
+//    $query = $this->database->select('node_field_data', 'n')
+//      ->fields('n', ['nid', 'created', 'publish_on'])
+//      ->condition('n.type', 'article')
+//      ->condition('n.status', 1);
+//
+//    $results = [];
+//
+//    $data = $query->execute();
+//
+//    foreach ($data as $row) {
+//      // Use publish_on if available, else fallback to created
+//      $timestamp = (!empty($row->publish_on) && $row->publish_on > 0)
+//        ? $row->publish_on
+//        : $row->created;
+//
+//      if ($timestamp < $start_ts || $timestamp > $end_ts) {
+//        continue;
+//      }
+//
+//      $key = date('Y-m-d', $timestamp);
+//      if (!isset($results[$key])) {
+//        $results[$key] = 0;
+//      }
+//      $results[$key]++;
+//    }
+//
+//    ksort($results);
+//    return $results;
+//  }
+
   private function fetchArticleCountsByRange($start_date, $end_date) {
     $start_ts = strtotime($start_date . ' 00:00:00');
     $end_ts = strtotime($end_date . ' 23:59:59');
 
-    $query = $this->database->select('node_field_data', 'n')
-      ->fields('n', ['nid', 'created', 'publish_on'])
+    $schema = \Drupal::database()->schema();
+
+    $has_publish_on = $schema->fieldExists('node_field_data', 'publish_on');
+
+    $query = $this->database->select('node_field_data', 'n');
+
+    $fields = ['nid', 'created'];
+    if ($has_publish_on) {
+      $fields[] = 'publish_on';
+    }
+
+    $query->fields('n', $fields)
       ->condition('n.type', 'article')
       ->condition('n.status', 1);
 
@@ -85,10 +129,7 @@ class ArticleReportingController extends ControllerBase {
     $data = $query->execute();
 
     foreach ($data as $row) {
-      // Use publish_on if available, else fallback to created
-      $timestamp = (!empty($row->publish_on) && $row->publish_on > 0)
-        ? $row->publish_on
-        : $row->created;
+      $timestamp = ($has_publish_on && !empty($row->publish_on)) ? $row->publish_on : $row->created;
 
       if ($timestamp < $start_ts || $timestamp > $end_ts) {
         continue;
@@ -104,4 +145,5 @@ class ArticleReportingController extends ControllerBase {
     ksort($results);
     return $results;
   }
+
 }

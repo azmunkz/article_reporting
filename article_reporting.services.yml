@@ -1,0 +1,6 @@
+services:
+  article_reporting.scheduler_check_subscriber:
+    class: Drupal\article_reporting\EventSubscriber\SchedulerCheckSubscriber
+    arguments: ['@module_handler', '@messenger', '@router.admin_context']
+    tags:
+      - { name: event_subscriber }
